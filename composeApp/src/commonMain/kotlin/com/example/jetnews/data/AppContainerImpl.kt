@@ -16,7 +16,6 @@
 
 package com.example.jetnews.data
 
-import android.content.Context
 import com.example.jetnews.data.interests.InterestsRepository
 import com.example.jetnews.data.interests.impl.FakeInterestsRepository
 import com.example.jetnews.data.posts.PostsRepository
@@ -35,7 +34,7 @@ interface AppContainer {
  *
  * Variables are initialized lazily and the same instance is shared across the whole app.
  */
-class AppContainerImpl(private val applicationContext: Context) : AppContainer {
+class AppContainerImpl() : AppContainer {
 
     override val postsRepository: PostsRepository by lazy {
         FakePostsRepository()

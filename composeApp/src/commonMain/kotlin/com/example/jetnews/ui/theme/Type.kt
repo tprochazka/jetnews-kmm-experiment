@@ -17,27 +17,23 @@
 package com.example.jetnews.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
-import com.example.jetnews.R
 
-private val Montserrat = FontFamily(
-    Font(R.font.montserrat_regular),
-    Font(R.font.montserrat_medium, FontWeight.W500)
-)
+//private val Montserrat = FontFamily(
+//    Font(Res.font.montserrat_regular),
+//    Font(Res.font.montserrat_medium, FontWeight.W500)
+//)
 
 @Suppress("DEPRECATION")
 val defaultTextStyle = TextStyle(
-    fontFamily = Montserrat,
-    platformStyle = PlatformTextStyle(
-        includeFontPadding = false
-    ),
+    //fontFamily = Montserrat,
+//    platformStyle = PlatformTextStyle(
+//        includeFontPadding = false
+//    ),
     lineHeightStyle = LineHeightStyle(
         alignment = LineHeightStyle.Alignment.Center,
         trim = LineHeightStyle.Trim.None

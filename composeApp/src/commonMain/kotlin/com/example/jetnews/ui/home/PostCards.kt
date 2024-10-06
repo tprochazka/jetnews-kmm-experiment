@@ -16,7 +16,6 @@
 
 package com.example.jetnews.ui.home
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -38,20 +37,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.jetnews.R
 import com.example.jetnews.data.posts.impl.post3
 import com.example.jetnews.model.Post
 import com.example.jetnews.ui.theme.JetnewsTheme
 import com.example.jetnews.ui.utils.BookmarkButton
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.agree
+import kotlinmulltiplatformlearning.composeapp.generated.resources.bookmark
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_more_actions
+import kotlinmulltiplatformlearning.composeapp.generated.resources.fewer_stories
+import kotlinmulltiplatformlearning.composeapp.generated.resources.fewer_stories_content
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_post_based_on_history
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_post_min_read
+import kotlinmulltiplatformlearning.composeapp.generated.resources.unbookmark
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AuthorAndReadTime(
@@ -61,11 +68,9 @@ fun AuthorAndReadTime(
     Row(modifier) {
         Text(
             text = stringResource(
-                id = R.string.home_post_min_read,
-                formatArgs = arrayOf(
-                    post.metadata.author.name,
-                    post.metadata.readTimeMinutes
-                )
+                Res.string.home_post_min_read,
+                post.metadata.author.name,
+                post.metadata.readTimeMinutes
             ),
             style = MaterialTheme.typography.bodyMedium
         )
@@ -100,14 +105,14 @@ fun PostCardSimple(
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit
 ) {
-    val bookmarkAction = stringResource(if (isFavorite) R.string.unbookmark else R.string.bookmark)
+    val bookmarkAction = stringResource(if (isFavorite) Res.string.unbookmark else Res.string.bookmark)
     Row(
         modifier = Modifier
             .clickable(onClick = { navigateToArticle(post.id) })
             .semantics {
                 // By defining a custom action, we tell accessibility services that this whole
                 // composable has an action attached to it. The accessibility service can choose
-                // how to best communicate this action to the user.
+                // how to best communicate this action to the useRes.
                 customActions = listOf(
                     CustomAccessibilityAction(
                         label = bookmarkAction,
@@ -154,7 +159,7 @@ fun PostCardHistory(post: Post, navigateToArticle: (String) -> Unit) {
                 .padding(vertical = 12.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.home_post_based_on_history),
+                text = stringResource(Res.string.home_post_based_on_history),
                 style = MaterialTheme.typography.labelMedium
             )
             PostTitle(post = post)
@@ -166,7 +171,7 @@ fun PostCardHistory(post: Post, navigateToArticle: (String) -> Unit) {
         IconButton(onClick = { openDialog = true }) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
-                contentDescription = stringResource(R.string.cd_more_actions)
+                contentDescription = stringResource(Res.string.cd_more_actions)
             )
         }
     }
@@ -176,19 +181,19 @@ fun PostCardHistory(post: Post, navigateToArticle: (String) -> Unit) {
             onDismissRequest = { openDialog = false },
             title = {
                 Text(
-                    text = stringResource(id = R.string.fewer_stories),
+                    text = stringResource(Res.string.fewer_stories),
                     style = MaterialTheme.typography.titleLarge
                 )
             },
             text = {
                 Text(
-                    text = stringResource(id = R.string.fewer_stories_content),
+                    text = stringResource(Res.string.fewer_stories_content),
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
             confirmButton = {
                 Text(
-                    text = stringResource(id = R.string.agree),
+                    text = stringResource(Res.string.agree),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
@@ -200,7 +205,7 @@ fun PostCardHistory(post: Post, navigateToArticle: (String) -> Unit) {
     }
 }
 
-@Preview("Bookmark Button")
+@Preview
 @Composable
 fun BookmarkButtonPreview() {
     JetnewsTheme {
@@ -210,7 +215,7 @@ fun BookmarkButtonPreview() {
     }
 }
 
-@Preview("Bookmark Button Bookmarked")
+@Preview
 @Composable
 fun BookmarkButtonBookmarkedPreview() {
     JetnewsTheme {
@@ -220,8 +225,7 @@ fun BookmarkButtonBookmarkedPreview() {
     }
 }
 
-@Preview("Simple post card")
-@Preview("Simple post card (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun SimplePostPreview() {
     JetnewsTheme {
@@ -231,7 +235,7 @@ fun SimplePostPreview() {
     }
 }
 
-@Preview("Post History card")
+@Preview
 @Composable
 fun HistoryPostPreview() {
     JetnewsTheme {

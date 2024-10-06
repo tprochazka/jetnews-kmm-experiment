@@ -16,7 +16,6 @@
 
 package com.example.jetnews.ui.home
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -109,7 +108,9 @@ fun HomeRoute(
         }
     }
 
+
     val homeScreenType = getHomeScreenType(isExpandedScreen, uiState)
+    println("XXX: $homeScreenType uiState: " + {uiState::class.simpleName})
     when (homeScreenType) {
         HomeScreenType.FeedWithArticleDetails -> {
             HomeFeedWithArticleDetailsScreen(
@@ -162,9 +163,10 @@ fun HomeRoute(
             // If we are just showing the detail, have a back press switch to the list.
             // This doesn't take anything more than notifying that we "interacted with the list"
             // since that is what drives the display of the feed
-            BackHandler {
-                onInteractWithFeed()
-            }
+// FIXME: BackHandler not supported in Compose Multiplatform common code
+//            BackHandler {
+//                onInteractWithFeed()
+//            }
         }
     }
 }

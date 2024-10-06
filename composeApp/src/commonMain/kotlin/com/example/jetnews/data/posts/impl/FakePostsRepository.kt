@@ -42,7 +42,7 @@ class FakePostsRepository : PostsRepository {
     // Used to make suspend functions that read and update state safe to call from any thread
 
     override suspend fun getPost(postId: String?): Result<Post> {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Default) {
             val post = posts.allPosts.find { it.id == postId }
             if (post == null) {
                 Result.Error(IllegalArgumentException("Post not found"))
@@ -53,7 +53,7 @@ class FakePostsRepository : PostsRepository {
     }
 
     override suspend fun getPostsFeed(): Result<PostsFeed> {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Default) {
             delay(800) // pretend we're on a slow network
             if (shouldRandomlyFail()) {
                 Result.Error(IllegalStateException())

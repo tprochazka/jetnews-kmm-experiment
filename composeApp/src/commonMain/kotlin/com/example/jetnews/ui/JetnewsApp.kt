@@ -38,6 +38,9 @@ fun JetnewsApp(
     appContainer: AppContainer,
     widthSizeClass: WindowWidthSizeClass,
 ) {
+
+    println("JetnewsApp")
+
     JetnewsTheme {
         val navController = rememberNavController()
         val navigationActions = remember(navController) {
@@ -87,7 +90,7 @@ fun JetnewsApp(
 }
 
 /**
- * Determine the drawer state to pass to the modal drawer.
+ * Determine the drawer state to pass to the modal draweRes.
  */
 @Composable
 private fun rememberSizeAwareDrawerState(isExpandedScreen: Boolean): DrawerState {

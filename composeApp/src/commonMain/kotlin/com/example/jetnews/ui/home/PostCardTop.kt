@@ -30,15 +30,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.jetnews.R
 import com.example.jetnews.data.posts.impl.posts
 import com.example.jetnews.model.Post
 import com.example.jetnews.ui.theme.JetnewsTheme
-import com.example.jetnews.utils.CompletePreviews
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_post_min_read
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PostCardTop(post: Post, modifier: Modifier = Modifier) {
@@ -73,7 +73,7 @@ fun PostCardTop(post: Post, modifier: Modifier = Modifier) {
         )
         Text(
             text = stringResource(
-                id = R.string.home_post_min_read,
+                Res.string.home_post_min_read,
                 formatArgs = arrayOf(
                     post.metadata.date,
                     post.metadata.readTimeMinutes
@@ -101,12 +101,12 @@ fun PostCardTopPreview() {
 }
 
 /*
- * These previews will only show up on Android Studio Dolphin and later.
+ * These previews will only show up on Android Studio Dolphin and lateRes.
  * They showcase a feature called Multipreview Annotations.
  *
  * Read more in the [documentation](https://d.android.com/jetpack/compose/tooling#preview-multipreview)
 */
-@CompletePreviews
+@Preview
 @Composable
 fun PostCardTopPreviews() {
     JetnewsTheme {

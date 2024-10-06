@@ -16,7 +16,6 @@
 
 package com.example.jetnews.ui.interests
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
@@ -30,9 +29,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetnews.ui.theme.JetnewsTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SelectTopicButton(
@@ -59,7 +58,7 @@ fun SelectTopicButton(
         color = backgroundColor,
         shape = CircleShape,
         border = BorderStroke(1.dp, borderColor),
-        modifier = modifier.size(36.dp, 36.dp)
+        modifier = Modifier.size(36.dp, 36.dp)
     ) {
         Image(
             imageVector = icon,
@@ -70,8 +69,7 @@ fun SelectTopicButton(
     }
 }
 
-@Preview("Off")
-@Preview("Off (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun SelectTopicButtonPreviewOff() {
     SelectTopicButtonPreviewTemplate(
@@ -79,8 +77,7 @@ fun SelectTopicButtonPreviewOff() {
     )
 }
 
-@Preview("On")
-@Preview("On (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun SelectTopicButtonPreviewOn() {
     SelectTopicButtonPreviewTemplate(
