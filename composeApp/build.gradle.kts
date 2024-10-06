@@ -56,22 +56,40 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.coroutines.core)
+            //implementation(libs.accompanist.swiperefresh)
             implementation(projects.shared)
+
+            //noinspection UseTomlInstead
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")
+            //noinspection UseTomlInstead
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+            //noinspection UseTomlInstead
+            implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.5.0")
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            //noinspection UseTomlInstead
+            //implementation("org.jetbrains.compose.ui:ui-tooling-preview-desktop:17.0-rc01")
+
         }
+
     }
 }
 

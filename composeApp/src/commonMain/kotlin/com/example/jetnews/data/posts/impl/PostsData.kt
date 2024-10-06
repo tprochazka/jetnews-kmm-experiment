@@ -17,7 +17,6 @@
 @file:Suppress("ktlint:max-line-length") // String constants read better
 package com.example.jetnews.data.posts.impl
 
-import com.example.jetnews.R
 import com.example.jetnews.model.Markup
 import com.example.jetnews.model.MarkupType
 import com.example.jetnews.model.Metadata
@@ -27,6 +26,19 @@ import com.example.jetnews.model.Post
 import com.example.jetnews.model.PostAuthor
 import com.example.jetnews.model.PostsFeed
 import com.example.jetnews.model.Publication
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_1
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_1_thumb
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_2
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_2_thumb
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_3
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_3_thumb
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_4
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_4_thumb
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_5
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_5_thumb
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_6
+import kotlinmulltiplatformlearning.composeapp.generated.resources.post_6_thumb
 
 /**
  * Define hardcoded posts to avoid handling any non-ui operations.
@@ -42,7 +54,7 @@ val jose =
     PostAuthor("Jose Alcérreca", "https://medium.com/@JoseAlcerreca")
 
 val androidstudioteam =
-    PostAuthor("Android Studio Team", "https://twitter.com/androidstudio")
+    PostAuthor("Android Studio Team", "https://twitteRes.com/androidstudio")
 
 val publication = Publication(
     "Android Developers",
@@ -196,19 +208,19 @@ val paragraphsPost2 = listOf(
                 MarkupType.Link,
                 0,
                 6,
-                "https://dagger.dev/"
+                "https://daggeRes.dev/"
             )
         )
     ),
     Paragraph(
         ParagraphType.Text,
-        "This month, a new tutorial was released to help you better understand how it works. This article focuses on using Dagger with Kotlin, including best practices to optimize your build time and gotchas you might encounter.",
+        "This month, a new tutorial was released to help you better understand how it works. This article focuses on using Dagger with Kotlin, including best practices to optimize your build time and gotchas you might encounteRes.",
         listOf(
             Markup(
                 MarkupType.Link,
                 14,
                 26,
-                "https://dagger.dev/tutorial/"
+                "https://daggeRes.dev/tutorial/"
             ),
             Markup(MarkupType.Bold, 114, 132),
             Markup(MarkupType.Bold, 144, 159),
@@ -406,7 +418,7 @@ val paragraphsPost2 = listOf(
                 MarkupType.Link,
                 57,
                 86,
-                "https://dagger.dev/multibindings.html"
+                "https://daggeRes.dev/multibindings.html"
             )
         )
     ),
@@ -478,7 +490,7 @@ val paragraphsPost3 = listOf(
                 MarkupType.Link,
                 209,
                 216,
-                "https://clmirror.storage.googleapis.com/codelabs/java-to-kotlin-zh/index.html#0"
+                "https://clmirroRes.storage.googleapis.com/codelabs/java-to-kotlin-zh/index.html#0"
             ),
             Markup(
                 MarkupType.Link,
@@ -581,7 +593,7 @@ val paragraphsPost4 = listOf(
                 MarkupType.Link,
                 61,
                 103,
-                "https://issuetracker.google.com/issues/111961971"
+                "https://issuetrackeRes.google.com/issues/111961971"
             ),
             Markup(MarkupType.Italic, 61, 104)
         )
@@ -599,13 +611,13 @@ val paragraphsPost4 = listOf(
                 MarkupType.Link,
                 3,
                 9,
-                "https://twitter.com/ZelenetS"
+                "https://twitteRes.com/ZelenetS"
             ),
             Markup(
                 MarkupType.Link,
                 28,
                 36,
-                "https://issuetracker.google.com/issues/111961971#comment2"
+                "https://issuetrackeRes.google.com/issues/111961971#comment2"
             ),
             Markup(MarkupType.Bold, 82, 150)
         )
@@ -800,7 +812,7 @@ val paragraphsPost5 = listOf(
         "override fun iterator(): Iterator<R> = object : Iterator<R> {\n" +
             "   …\n" +
             "   override fun next(): R {\n" +
-            "     return transformer(checkIndexOverflow(index++), iterator.next())\n" +
+            "     return transformer(checkIndexOverflow(index++), iteratoRes.next())\n" +
             "   }\n" +
             "   …\n" +
             "}",
@@ -952,7 +964,7 @@ val paragraphsPost6 = listOf(
     ),
     Paragraph(
         ParagraphType.Text,
-        "You told us the Android Studio logo looked a little weird and complicated. It doesn't shrink down well and it's way too similar to the emulator. We heard you!"
+        "You told us the Android Studio logo looked a little weird and complicated. It doesn't shrink down well and it's way too similar to the emulatoRes. We heard you!"
     ),
     Paragraph(
         ParagraphType.Text,
@@ -1015,7 +1027,7 @@ val paragraphsPost6 = listOf(
     ),
     Paragraph(
         ParagraphType.Text,
-        "When redesigning a logo, it's important to consider brand elements that unify products within an ecosystem. For the Android Developer ecosystem, the \"robot head\" is a key brand element, alongside the primaryAndroid green color. The secondary colors blue and navy, and tertiary colors like orange, can also be utilized for support."
+        "When redesigning a logo, it's important to consider brand elements that unify products within an ecosystem. For the Android Developer ecosystem, the \"robot head\" is a key brand element, alongside the primaryAndroid green coloRes. The secondary colors blue and navy, and tertiary colors like orange, can also be utilized for support."
     ),
     Paragraph(
         ParagraphType.Header,
@@ -1096,14 +1108,14 @@ val post1 = Post(
         readTimeMinutes = 1
     ),
     paragraphs = paragraphsPost1,
-    imageId = R.drawable.post_1,
-    imageThumbId = R.drawable.post_1_thumb
+    imageId = Res.drawable.post_1,
+    imageThumbId = Res.drawable.post_1_thumb
 )
 
 val post2 = Post(
     id = "7446d8dfd7dc",
     title = "Dagger in Kotlin: Gotchas and Optimizations",
-    subtitle = "Use Dagger in Kotlin! This article includes best practices to optimize your build time and gotchas you might encounter.",
+    subtitle = "Use Dagger in Kotlin! This article includes best practices to optimize your build time and gotchas you might encounteRes.",
     url = "https://medium.com/androiddevelopers/dagger-in-kotlin-gotchas-and-optimizations-7446d8dfd7dc",
     publication = publication,
     metadata = Metadata(
@@ -1112,8 +1124,8 @@ val post2 = Post(
         readTimeMinutes = 3
     ),
     paragraphs = paragraphsPost2,
-    imageId = R.drawable.post_2,
-    imageThumbId = R.drawable.post_2_thumb
+    imageId = Res.drawable.post_2,
+    imageThumbId = Res.drawable.post_2_thumb
 )
 
 val post3 = Post(
@@ -1128,8 +1140,8 @@ val post3 = Post(
         readTimeMinutes = 1
     ),
     paragraphs = paragraphsPost3,
-    imageId = R.drawable.post_3,
-    imageThumbId = R.drawable.post_3_thumb
+    imageId = Res.drawable.post_3,
+    imageThumbId = Res.drawable.post_3_thumb
 )
 
 val post4 = Post(
@@ -1144,8 +1156,8 @@ val post4 = Post(
         readTimeMinutes = 1
     ),
     paragraphs = paragraphsPost4,
-    imageId = R.drawable.post_4,
-    imageThumbId = R.drawable.post_4_thumb
+    imageId = Res.drawable.post_4,
+    imageThumbId = Res.drawable.post_4_thumb
 )
 
 val post5 = Post(
@@ -1160,8 +1172,8 @@ val post5 = Post(
         readTimeMinutes = 4
     ),
     paragraphs = paragraphsPost5,
-    imageId = R.drawable.post_5,
-    imageThumbId = R.drawable.post_5_thumb
+    imageId = Res.drawable.post_5,
+    imageThumbId = Res.drawable.post_5_thumb
 )
 
 val post6 = Post(
@@ -1176,8 +1188,8 @@ val post6 = Post(
         readTimeMinutes = 5
     ),
     paragraphs = paragraphsPost6,
-    imageId = R.drawable.post_6,
-    imageThumbId = R.drawable.post_6_thumb
+    imageId = Res.drawable.post_6,
+    imageThumbId = Res.drawable.post_6_thumb
 )
 
 val posts: PostsFeed =

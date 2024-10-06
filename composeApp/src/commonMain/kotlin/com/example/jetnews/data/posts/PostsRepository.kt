@@ -22,7 +22,7 @@ import com.example.jetnews.model.PostsFeed
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Interface to the Posts data layer.
+ * Interface to the Posts data layeRes.
  */
 interface PostsRepository {
 

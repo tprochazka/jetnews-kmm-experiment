@@ -41,7 +41,7 @@ class BlockingFakePostsRepository : PostsRepository {
     private val postsFeed = MutableStateFlow<PostsFeed?>(null)
 
     override suspend fun getPost(postId: String?): Result<Post> {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Default) {
             val post = posts.allPosts.find { it.id == postId }
             if (post == null) {
                 Result.Error(IllegalArgumentException("Unable to find post"))

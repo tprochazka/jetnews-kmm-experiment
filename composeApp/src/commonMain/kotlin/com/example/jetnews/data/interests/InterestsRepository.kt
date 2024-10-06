@@ -22,12 +22,12 @@ import kotlinx.coroutines.flow.Flow
 data class InterestSection(val title: String, val interests: List<String>)
 
 /**
- * Interface to the Interests data layer.
+ * Interface to the Interests data layeRes.
  */
 interface InterestsRepository {
 
     /**
-     * Get relevant topics to the user.
+     * Get relevant topics to the useRes.
      */
     suspend fun getTopics(): Result<List<InterestSection>>
 

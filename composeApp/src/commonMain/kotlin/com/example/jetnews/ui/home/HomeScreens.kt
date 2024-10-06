@@ -16,9 +16,8 @@
 
 package com.example.jetnews.ui.home
 
-import android.content.Context
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.widget.Toast
+//import com.google.accompanist.swiperefresh.SwipeRefresh
+//import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -85,36 +84,36 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.jetnews.R
-import com.example.jetnews.data.Result
-import com.example.jetnews.data.posts.impl.BlockingFakePostsRepository
 import com.example.jetnews.model.Post
 import com.example.jetnews.model.PostsFeed
 import com.example.jetnews.ui.article.postContentItems
-import com.example.jetnews.ui.article.sharePost
 import com.example.jetnews.ui.components.JetnewsSnackbarHost
 import com.example.jetnews.ui.modifiers.interceptKey
-import com.example.jetnews.ui.theme.JetnewsTheme
 import com.example.jetnews.ui.utils.BookmarkButton
 import com.example.jetnews.ui.utils.FavoriteButton
 import com.example.jetnews.ui.utils.ShareButton
 import com.example.jetnews.ui.utils.TextSettingsButton
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.app_name
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_open_navigation_drawer
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_search
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_popular_section_title
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_search
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_tap_to_load_content
+import kotlinmulltiplatformlearning.composeapp.generated.resources.home_top_section_title
+import kotlinmulltiplatformlearning.composeapp.generated.resources.ic_jetnews_logo
+import kotlinmulltiplatformlearning.composeapp.generated.resources.ic_jetnews_wordmark
+import kotlinmulltiplatformlearning.composeapp.generated.resources.retry
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The home screen displaying the feed along with an article details.
@@ -189,11 +188,13 @@ fun HomeFeedWithArticleDetailsScreen(
                         }
 
                         // Floating toolbar
-                        val context = LocalContext.current
                         PostTopBar(
                             isFavorite = hasPostsUiState.favorites.contains(detailPost.id),
                             onToggleFavorite = { onToggleFavorite(detailPost.id) },
-                            onSharePost = { sharePost(detailPost, context) },
+                            onSharePost = {
+                                // FIXME: sharePost is not implemented
+                                // sharePost(detailPost, context)
+                            },
                             modifier = Modifier
                                 .windowInsetsPadding(WindowInsets.safeDrawing)
                                 .fillMaxWidth()
@@ -322,10 +323,10 @@ private fun HomeScreenWithList(
                             // if there are no posts, and no error, let the user refresh manually
                             TextButton(
                                 onClick = onRefreshPosts,
-                                modifier.padding(innerPadding).fillMaxSize()
+                                Modifier.padding(innerPadding).fillMaxSize()
                             ) {
                                 Text(
-                                    stringResource(id = R.string.home_tap_to_load_content),
+                                    stringResource(Res.string.home_tap_to_load_content),
                                     textAlign = TextAlign.Center
                                 )
                             }
@@ -349,8 +350,8 @@ private fun HomeScreenWithList(
         val errorMessage = remember(uiState) { uiState.errorMessages[0] }
 
         // Get the text to show on the message from resources
-        val errorMessageText: String = stringResource(errorMessage.messageId)
-        val retryMessageText = stringResource(id = R.string.retry)
+        val errorMessageText: String = stringResource(errorMessage.message)
+        val retryMessageText = stringResource(Res.string.retry)
 
         // If onRefreshPosts or onErrorDismiss change while the LaunchedEffect is running,
         // don't restart the effect and use the latest lambda values.
@@ -394,11 +395,14 @@ private fun LoadingContent(
     if (empty) {
         emptyContent()
     } else {
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(loading),
-            onRefresh = onRefresh,
-            content = content,
-        )
+//        SwipeRefresh(
+//            state = rememberSwipeRefreshState(loading),
+//            onRefresh = onRefresh,
+//            content = content,
+//        )
+
+        content()
+
     }
 }
 
@@ -424,6 +428,10 @@ private fun PostList(
     searchInput: String = "",
     onSearchInputChanged: (String) -> Unit,
 ) {
+
+    println("-----------------------------------------------------------------------------")
+    println("PostList $postsFeed")
+
     LazyColumn(
         modifier = modifier,
         contentPadding = contentPadding,
@@ -486,7 +494,7 @@ private fun FullScreenLoading() {
 private fun PostListTopSection(post: Post, navigateToArticle: (String) -> Unit) {
     Text(
         modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        text = stringResource(id = R.string.home_top_section_title),
+        text = stringResource(Res.string.home_top_section_title),
         style = MaterialTheme.typography.titleMedium
     )
     PostCardTop(
@@ -536,7 +544,7 @@ private fun PostListPopularSection(
     Column {
         Text(
             modifier = Modifier.padding(16.dp),
-            text = stringResource(id = R.string.home_popular_section_title),
+            text = stringResource(Res.string.home_popular_section_title),
             style = MaterialTheme.typography.titleLarge
         )
         Row(
@@ -598,19 +606,18 @@ private fun HomeSearch(
     searchInput: String = "",
     onSearchInputChanged: (String) -> Unit,
 ) {
-    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = searchInput,
         onValueChange = onSearchInputChanged,
-        placeholder = { Text(stringResource(R.string.home_search)) },
+        placeholder = { Text(stringResource(Res.string.home_search)) },
         leadingIcon = { Icon(Icons.Filled.Search, null) },
         modifier = modifier
             .fillMaxWidth()
             .interceptKey(Key.Enter) {
                 // submit a search query when Enter is pressed
-                submitSearch(onSearchInputChanged, context)
+                // submitSearch(onSearchInputChanged, context) FIXME
                 keyboardController?.hide()
                 focusManager.clearFocus(force = true)
             },
@@ -620,7 +627,7 @@ private fun HomeSearch(
         // keyboardActions submits the search query when the search key is pressed
         keyboardActions = KeyboardActions(
             onSearch = {
-                submitSearch(onSearchInputChanged, context)
+                //submitSearch(onSearchInputChanged, context) FIXME
                 keyboardController?.hide()
             }
         )
@@ -632,14 +639,14 @@ private fun HomeSearch(
  */
 private fun submitSearch(
     onSearchInputChanged: (String) -> Unit,
-    context: Context
+//    context: Context
 ) {
     onSearchInputChanged("")
-    Toast.makeText(
-        context,
-        "Search is not yet implemented",
-        Toast.LENGTH_SHORT
-    ).show()
+//    Toast.makeText(
+//        context,
+//        "Search is not yet implemented",
+//        Toast.LENGTH_SHORT
+//    ).show()
 }
 
 /**
@@ -655,7 +662,7 @@ private fun PostTopBar(
     Surface(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(Dp.Hairline, MaterialTheme.colorScheme.onSurface.copy(alpha = .6f)),
-        modifier = modifier.padding(end = 16.dp)
+        modifier = Modifier.padding(end = 16.dp)
     ) {
         Row(Modifier.padding(horizontal = 8.dp)) {
             FavoriteButton(onClick = { /* Functionality not available */ })
@@ -678,12 +685,11 @@ private fun HomeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? =
         TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
 ) {
-    val context = LocalContext.current
-    val title = stringResource(id = R.string.app_name)
+    val title = stringResource(Res.string.app_name)
     CenterAlignedTopAppBar(
         title = {
             Image(
-                painter = painterResource(R.drawable.ic_jetnews_wordmark),
+                painter = painterResource(Res.drawable.ic_jetnews_wordmark),
                 contentDescription = title,
                 contentScale = ContentScale.Inside,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
@@ -693,22 +699,22 @@ private fun HomeTopAppBar(
         navigationIcon = {
             IconButton(onClick = openDrawer) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_jetnews_logo),
-                    contentDescription = stringResource(R.string.cd_open_navigation_drawer)
+                    painter = painterResource(Res.drawable.ic_jetnews_logo),
+                    contentDescription = stringResource(Res.string.cd_open_navigation_drawer)
                 )
             }
         },
         actions = {
             IconButton(onClick = {
-                Toast.makeText(
-                    context,
-                    "Search is not yet implemented in this configuration",
-                    Toast.LENGTH_LONG
-                ).show()
+//                Toast.makeText(
+//                    context,
+//                    "Search is not yet implemented in this configuration",
+//                    Toast.LENGTH_LONG
+//                ).show()
             }) {
                 Icon(
                     imageVector = Icons.Filled.Search,
-                    contentDescription = stringResource(R.string.cd_search)
+                    contentDescription = stringResource(Res.string.cd_search)
                 )
             }
         },
@@ -717,109 +723,109 @@ private fun HomeTopAppBar(
     )
 }
 
-@Preview("Home list drawer screen")
-@Preview("Home list drawer screen (dark)", uiMode = UI_MODE_NIGHT_YES)
-@Preview("Home list drawer screen (big font)", fontScale = 1.5f)
-@Composable
-fun PreviewHomeListDrawerScreen() {
-    val postsFeed = runBlocking {
-        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
-    }
-    JetnewsTheme {
-        HomeFeedScreen(
-            uiState = HomeUiState.HasPosts(
-                postsFeed = postsFeed,
-                selectedPost = postsFeed.highlightedPost,
-                isArticleOpen = false,
-                favorites = emptySet(),
-                isLoading = false,
-                errorMessages = emptyList(),
-                searchInput = ""
-            ),
-            showTopAppBar = false,
-            onToggleFavorite = {},
-            onSelectPost = {},
-            onRefreshPosts = {},
-            onErrorDismiss = {},
-            openDrawer = {},
-            homeListLazyListState = rememberLazyListState(),
-            snackbarHostState = SnackbarHostState(),
-            onSearchInputChanged = {}
-        )
-    }
-}
-
-@Preview("Home list navrail screen", device = Devices.NEXUS_7_2013)
-@Preview(
-    "Home list navrail screen (dark)",
-    uiMode = UI_MODE_NIGHT_YES,
-    device = Devices.NEXUS_7_2013
-)
-@Preview("Home list navrail screen (big font)", fontScale = 1.5f, device = Devices.NEXUS_7_2013)
-@Composable
-fun PreviewHomeListNavRailScreen() {
-    val postsFeed = runBlocking {
-        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
-    }
-    JetnewsTheme {
-        HomeFeedScreen(
-            uiState = HomeUiState.HasPosts(
-                postsFeed = postsFeed,
-                selectedPost = postsFeed.highlightedPost,
-                isArticleOpen = false,
-                favorites = emptySet(),
-                isLoading = false,
-                errorMessages = emptyList(),
-                searchInput = ""
-            ),
-            showTopAppBar = true,
-            onToggleFavorite = {},
-            onSelectPost = {},
-            onRefreshPosts = {},
-            onErrorDismiss = {},
-            openDrawer = {},
-            homeListLazyListState = rememberLazyListState(),
-            snackbarHostState = SnackbarHostState(),
-            onSearchInputChanged = {}
-        )
-    }
-}
-
-@Preview("Home list detail screen", device = Devices.PIXEL_C)
-@Preview("Home list detail screen (dark)", uiMode = UI_MODE_NIGHT_YES, device = Devices.PIXEL_C)
-@Preview("Home list detail screen (big font)", fontScale = 1.5f, device = Devices.PIXEL_C)
-@Composable
-fun PreviewHomeListDetailScreen() {
-    val postsFeed = runBlocking {
-        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
-    }
-    JetnewsTheme {
-        HomeFeedWithArticleDetailsScreen(
-            uiState = HomeUiState.HasPosts(
-                postsFeed = postsFeed,
-                selectedPost = postsFeed.highlightedPost,
-                isArticleOpen = false,
-                favorites = emptySet(),
-                isLoading = false,
-                errorMessages = emptyList(),
-                searchInput = ""
-            ),
-            showTopAppBar = true,
-            onToggleFavorite = {},
-            onSelectPost = {},
-            onRefreshPosts = {},
-            onErrorDismiss = {},
-            onInteractWithList = {},
-            onInteractWithDetail = {},
-            openDrawer = {},
-            homeListLazyListState = rememberLazyListState(),
-            articleDetailLazyListStates = postsFeed.allPosts.associate { post ->
-                key(post.id) {
-                    post.id to rememberLazyListState()
-                }
-            },
-            snackbarHostState = SnackbarHostState(),
-            onSearchInputChanged = {}
-        )
-    }
-}
+//@Preview("Home list drawer screen")
+//@Preview("Home list drawer screen (dark)", uiMode = UI_MODE_NIGHT_YES)
+//@Preview("Home list drawer screen (big font)", fontScale = 1.5f)
+//@Composable
+//fun PreviewHomeListDrawerScreen() {
+//    val postsFeed = runBlocking {
+//        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
+//    }
+//    JetnewsTheme {
+//        HomeFeedScreen(
+//            uiState = HomeUiState.HasPosts(
+//                postsFeed = postsFeed,
+//                selectedPost = postsFeed.highlightedPost,
+//                isArticleOpen = false,
+//                favorites = emptySet(),
+//                isLoading = false,
+//                errorMessages = emptyList(),
+//                searchInput = ""
+//            ),
+//            showTopAppBar = false,
+//            onToggleFavorite = {},
+//            onSelectPost = {},
+//            onRefreshPosts = {},
+//            onErrorDismiss = {},
+//            openDrawer = {},
+//            homeListLazyListState = rememberLazyListState(),
+//            snackbarHostState = SnackbarHostState(),
+//            onSearchInputChanged = {}
+//        )
+//    }
+//}
+//
+//@Preview("Home list navrail screen", device = Devices.NEXUS_7_2013)
+//@Preview(
+//    "Home list navrail screen (dark)",
+//    uiMode = UI_MODE_NIGHT_YES,
+//    device = Devices.NEXUS_7_2013
+//)
+//@Preview("Home list navrail screen (big font)", fontScale = 1.5f, device = Devices.NEXUS_7_2013)
+//@Composable
+//fun PreviewHomeListNavRailScreen() {
+//    val postsFeed = runBlocking {
+//        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
+//    }
+//    JetnewsTheme {
+//        HomeFeedScreen(
+//            uiState = HomeUiState.HasPosts(
+//                postsFeed = postsFeed,
+//                selectedPost = postsFeed.highlightedPost,
+//                isArticleOpen = false,
+//                favorites = emptySet(),
+//                isLoading = false,
+//                errorMessages = emptyList(),
+//                searchInput = ""
+//            ),
+//            showTopAppBar = true,
+//            onToggleFavorite = {},
+//            onSelectPost = {},
+//            onRefreshPosts = {},
+//            onErrorDismiss = {},
+//            openDrawer = {},
+//            homeListLazyListState = rememberLazyListState(),
+//            snackbarHostState = SnackbarHostState(),
+//            onSearchInputChanged = {}
+//        )
+//    }
+//}
+//
+//@Preview("Home list detail screen", device = Devices.PIXEL_C)
+//@Preview("Home list detail screen (dark)", uiMode = UI_MODE_NIGHT_YES, device = Devices.PIXEL_C)
+//@Preview("Home list detail screen (big font)", fontScale = 1.5f, device = Devices.PIXEL_C)
+//@Composable
+//fun PreviewHomeListDetailScreen() {
+//    val postsFeed = runBlocking {
+//        (BlockingFakePostsRepository().getPostsFeed() as Result.Success).data
+//    }
+//    JetnewsTheme {
+//        HomeFeedWithArticleDetailsScreen(
+//            uiState = HomeUiState.HasPosts(
+//                postsFeed = postsFeed,
+//                selectedPost = postsFeed.highlightedPost,
+//                isArticleOpen = false,
+//                favorites = emptySet(),
+//                isLoading = false,
+//                errorMessages = emptyList(),
+//                searchInput = ""
+//            ),
+//            showTopAppBar = true,
+//            onToggleFavorite = {},
+//            onSelectPost = {},
+//            onRefreshPosts = {},
+//            onErrorDismiss = {},
+//            onInteractWithList = {},
+//            onInteractWithDetail = {},
+//            openDrawer = {},
+//            homeListLazyListState = rememberLazyListState(),
+//            articleDetailLazyListStates = postsFeed.allPosts.associate { post ->
+//                key(post.id) {
+//                    post.id to rememberLazyListState()
+//                }
+//            },
+//            snackbarHostState = SnackbarHostState(),
+//            onSearchInputChanged = {}
+//        )
+//    }
+//}

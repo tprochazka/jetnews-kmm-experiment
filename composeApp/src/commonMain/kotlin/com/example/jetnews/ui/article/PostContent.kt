@@ -16,7 +16,6 @@
 
 package com.example.jetnews.ui.article
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -52,8 +51,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
@@ -64,11 +61,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.jetnews.R
 import com.example.jetnews.data.posts.impl.post3
 import com.example.jetnews.model.Markup
 import com.example.jetnews.model.MarkupType
@@ -77,6 +72,11 @@ import com.example.jetnews.model.Paragraph
 import com.example.jetnews.model.ParagraphType
 import com.example.jetnews.model.Post
 import com.example.jetnews.ui.theme.JetnewsTheme
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.article_post_min_read
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private val defaultSpacerSize = 16.dp
 
@@ -89,7 +89,7 @@ fun PostContent(
 ) {
     LazyColumn(
         contentPadding = contentPadding,
-        modifier = modifier.padding(horizontal = defaultSpacerSize),
+        modifier = Modifier.padding(horizontal = defaultSpacerSize),
         state = state,
     ) {
         postContentItems(post)
@@ -132,7 +132,7 @@ private fun PostMetadata(
 ) {
     Row(
         // Merge semantics so accessibility services consider this row a single element
-        modifier = modifier.semantics(mergeDescendants = true) {}
+        modifier = Modifier.semantics(mergeDescendants = true) {}
     ) {
         Image(
             imageVector = Icons.Filled.AccountCircle,
@@ -151,7 +151,7 @@ private fun PostMetadata(
 
             Text(
                 text = stringResource(
-                    id = R.string.article_post_min_read,
+                    resource = Res.string.article_post_min_read,
                     formatArgs = arrayOf(
                         metadata.date,
                         metadata.readTimeMinutes
@@ -343,8 +343,7 @@ fun Markup.toAnnotatedStringItem(
 private val ColorScheme.codeBlockBackground: Color
     get() = onSurface.copy(alpha = .15f)
 
-@Preview("Post content")
-@Preview("Post content (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun PreviewPost() {
     JetnewsTheme {

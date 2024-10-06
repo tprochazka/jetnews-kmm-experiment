@@ -16,9 +16,6 @@
 
 package com.example.jetnews.ui.interests
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,37 +50,39 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.jetnews.R
-import com.example.jetnews.data.Result
 import com.example.jetnews.data.interests.InterestSection
 import com.example.jetnews.data.interests.TopicSelection
-import com.example.jetnews.data.interests.impl.FakeInterestsRepository
 import com.example.jetnews.ui.theme.JetnewsTheme
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_interests
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_open_navigation_drawer
+import kotlinmulltiplatformlearning.composeapp.generated.resources.cd_search
+import kotlinmulltiplatformlearning.composeapp.generated.resources.ic_jetnews_logo
+import kotlinmulltiplatformlearning.composeapp.generated.resources.interests_section_people
+import kotlinmulltiplatformlearning.composeapp.generated.resources.interests_section_publications
+import kotlinmulltiplatformlearning.composeapp.generated.resources.interests_section_topics
+import kotlinmulltiplatformlearning.composeapp.generated.resources.placeholder_1_1
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
-import kotlinx.coroutines.runBlocking
 
-enum class Sections(@StringRes val titleResId: Int) {
-    Topics(R.string.interests_section_topics),
-    People(R.string.interests_section_people),
-    Publications(R.string.interests_section_publications)
+enum class Sections(val titleResId: StringResource) {
+    Topics(Res.string.interests_section_topics),
+    People(Res.string.interests_section_people),
+    Publications(Res.string.interests_section_publications)
 }
 
 /**
@@ -120,14 +119,13 @@ fun InterestsScreen(
     openDrawer: () -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
-    val context = LocalContext.current
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.cd_interests),
+                        text = stringResource(Res.string.cd_interests),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -136,9 +134,9 @@ fun InterestsScreen(
                     if (!isExpandedScreen) {
                         IconButton(onClick = openDrawer) {
                             Icon(
-                                painter = painterResource(R.drawable.ic_jetnews_logo),
+                                painter = painterResource(Res.drawable.ic_jetnews_logo),
                                 contentDescription = stringResource(
-                                    R.string.cd_open_navigation_drawer
+                                    Res.string.cd_open_navigation_drawer
                                 ),
                             )
                         }
@@ -147,16 +145,16 @@ fun InterestsScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            Toast.makeText(
-                                context,
-                                "Search is not yet implemented in this configuration",
-                                Toast.LENGTH_LONG
-                            ).show()
+//                            Toast.makeText(
+//                                context,
+//                                "Search is not yet implemented in this configuration",
+//                                Toast.LENGTH_LONG
+//                            ).show()
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Search,
-                            contentDescription = stringResource(R.string.cd_search)
+                            contentDescription = stringResource(Res.string.cd_search)
                         )
                     }
                 }
@@ -328,13 +326,13 @@ private fun TopicItem(
 ) {
     Column(Modifier.padding(horizontal = 16.dp)) {
         Row(
-            modifier = modifier.toggleable(
+            modifier = Modifier.toggleable(
                 value = selected,
                 onValueChange = { onToggle() }
             ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val image = painterResource(R.drawable.placeholder_1_1)
+            val image = painterResource(Res.drawable.placeholder_1_1)
             Image(
                 painter = image,
                 contentDescription = null, // decorative
@@ -353,7 +351,7 @@ private fun TopicItem(
             SelectTopicButton(selected = selected)
         }
         HorizontalDivider(
-            modifier = modifier.padding(start = 72.dp, top = 8.dp, bottom = 8.dp),
+            modifier = Modifier.padding(start = 72.dp, top = 8.dp, bottom = 8.dp),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
         )
     }
@@ -414,10 +412,10 @@ private fun InterestsTabRowContent(
             modifier = Modifier.heightIn(min = 48.dp)
         ) {
             Text(
-                text = stringResource(id = content.section.titleResId),
+                text = stringResource(content.section.titleResId),
                 color = colorText,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = modifier.paddingFromBaseline(top = 20.dp)
+                modifier = Modifier.paddingFromBaseline(top = 20.dp)
             )
         }
     }
@@ -497,91 +495,100 @@ private fun InterestsAdaptiveContentLayout(
     }
 }
 
-@Preview("Interests screen", "Interests")
-@Preview("Interests screen (dark)", "Interests", uiMode = UI_MODE_NIGHT_YES)
-@Preview("Interests screen (big font)", "Interests", fontScale = 1.5f)
-@Composable
-fun PreviewInterestsScreenDrawer() {
-    JetnewsTheme {
-        val tabContent = getFakeTabsContent()
-        val (currentSection, updateSection) = rememberSaveable {
-            mutableStateOf(tabContent.first().section)
-        }
+//@Preview("Interests screen", "Interests")
+//@Preview("Interests screen (dark)", "Interests", uiMode = UI_MODE_NIGHT_YES)
+//@Preview("Interests screen (big font)", "Interests", fontScale = 1.5f)
+//@Composable
+//fun PreviewInterestsScreenDrawer() {
+//    JetnewsTheme {
+//        val tabContent = getFakeTabsContent()
+//        val (currentSection, updateSection) = rememberSaveable {
+//            mutableStateOf(tabContent.first().section)
+//        }
+//
+//        InterestsScreen(
+//            tabContent = tabContent,
+//            currentSection = currentSection,
+//            isExpandedScreen = false,
+//            onTabChange = updateSection,
+//            openDrawer = { },
+//            snackbarHostState = SnackbarHostState()
+//        )
+//    }
+//}
 
-        InterestsScreen(
-            tabContent = tabContent,
-            currentSection = currentSection,
-            isExpandedScreen = false,
-            onTabChange = updateSection,
-            openDrawer = { },
-            snackbarHostState = SnackbarHostState()
-        )
-    }
-}
+//@Preview("Interests screen navrail", "Interests", device = Devices.PIXEL_C)
+//@Preview(
+//    "Interests screen navrail (dark)", "Interests",
+//    uiMode = UI_MODE_NIGHT_YES, device = Devices.PIXEL_C
+//)
+//@Preview(
+//    "Interests screen navrail (big font)", "Interests",
+//    fontScale = 1.5f, device = Devices.PIXEL_C
+//)
+//@Composable
+//fun PreviewInterestsScreenNavRail() {
+//    JetnewsTheme {
+//        val tabContent = getFakeTabsContent()
+//        val (currentSection, updateSection) = rememberSaveable {
+//            mutableStateOf(tabContent.first().section)
+//        }
+//
+//        InterestsScreen(
+//            tabContent = tabContent,
+//            currentSection = currentSection,
+//            isExpandedScreen = true,
+//            onTabChange = updateSection,
+//            openDrawer = { },
+//            snackbarHostState = SnackbarHostState()
+//        )
+//    }
+//}
+//
+//@Preview("Interests screen topics tab", "Topics")
+//@Preview("Interests screen topics tab (dark)", "Topics", uiMode = UI_MODE_NIGHT_YES)
+//@Composable
+//fun PreviewTopicsTab() {
+//    val topics = runBlocking {
+//        (FakeInterestsRepository().getTopics() as Result.Success).data
+//    }
+//    JetnewsTheme {
+//        Surface {
+//            TabWithSections(topics, setOf()) { }
+//        }
+//    }
+//}
 
-@Preview("Interests screen navrail", "Interests", device = Devices.PIXEL_C)
-@Preview(
-    "Interests screen navrail (dark)", "Interests",
-    uiMode = UI_MODE_NIGHT_YES, device = Devices.PIXEL_C
-)
-@Preview(
-    "Interests screen navrail (big font)", "Interests",
-    fontScale = 1.5f, device = Devices.PIXEL_C
-)
-@Composable
-fun PreviewInterestsScreenNavRail() {
-    JetnewsTheme {
-        val tabContent = getFakeTabsContent()
-        val (currentSection, updateSection) = rememberSaveable {
-            mutableStateOf(tabContent.first().section)
-        }
+//@Preview("Interests screen people tab", "People")
+//@Preview("Interests screen people tab (dark)", "People", uiMode = UI_MODE_NIGHT_YES)
+//@Composable
+//fun PreviewPeopleTab() {
+//    val people = runBlocking {
+//        (FakeInterestsRepository().getPeople() as Result.Success).data
+//    }
+//    JetnewsTheme {
+//        Surface {
+//            TabWithTopics(people, setOf()) { }
+//        }
+//    }
+//}
 
-        InterestsScreen(
-            tabContent = tabContent,
-            currentSection = currentSection,
-            isExpandedScreen = true,
-            onTabChange = updateSection,
-            openDrawer = { },
-            snackbarHostState = SnackbarHostState()
-        )
-    }
-}
-
-@Preview("Interests screen topics tab", "Topics")
-@Preview("Interests screen topics tab (dark)", "Topics", uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewTopicsTab() {
-    val topics = runBlocking {
-        (FakeInterestsRepository().getTopics() as Result.Success).data
-    }
-    JetnewsTheme {
-        Surface {
-            TabWithSections(topics, setOf()) { }
-        }
-    }
-}
-
-@Preview("Interests screen people tab", "People")
-@Preview("Interests screen people tab (dark)", "People", uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewPeopleTab() {
-    val people = runBlocking {
-        (FakeInterestsRepository().getPeople() as Result.Success).data
-    }
-    JetnewsTheme {
-        Surface {
-            TabWithTopics(people, setOf()) { }
-        }
-    }
-}
-
-@Preview("Interests screen publications tab", "Publications")
-@Preview("Interests screen publications tab (dark)", "Publications", uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 fun PreviewPublicationsTab() {
-    val publications = runBlocking {
-        (FakeInterestsRepository().getPublications() as Result.Success).data
-    }
+
+    val  publications =listOf(
+        "Kotlin Vibe",
+        "Compose Mix",
+        "Compose Breakdown",
+        "Android Pursue",
+        "Kotlin Watchman",
+        "Jetpack Ark",
+        "Composeshack",
+        "Jetpack Point",
+        "Compose Tribune"
+    )
+
     JetnewsTheme {
         Surface {
             TabWithTopics(publications, setOf()) { }
@@ -589,26 +596,26 @@ fun PreviewPublicationsTab() {
     }
 }
 
-private fun getFakeTabsContent(): List<TabContent> {
-    val interestsRepository = FakeInterestsRepository()
-    val topicsSection = TabContent(Sections.Topics) {
-        TabWithSections(
-            runBlocking { (interestsRepository.getTopics() as Result.Success).data },
-            emptySet()
-        ) { }
-    }
-    val peopleSection = TabContent(Sections.People) {
-        TabWithTopics(
-            runBlocking { (interestsRepository.getPeople() as Result.Success).data },
-            emptySet()
-        ) { }
-    }
-    val publicationSection = TabContent(Sections.Publications) {
-        TabWithTopics(
-            runBlocking { (interestsRepository.getPublications() as Result.Success).data },
-            emptySet()
-        ) { }
-    }
-
-    return listOf(topicsSection, peopleSection, publicationSection)
-}
+//private fun getFakeTabsContent(): List<TabContent> {
+//    val interestsRepository = FakeInterestsRepository()
+//    val topicsSection = TabContent(Sections.Topics) {
+//        TabWithSections(
+//            runBlocking { (interestsRepository.getTopics() as Result.Success).data },
+//            emptySet()
+//        ) { }
+//    }
+//    val peopleSection = TabContent(Sections.People) {
+//        TabWithTopics(
+//            runBlocking { (interestsRepository.getPeople() as Result.Success).data },
+//            emptySet()
+//        ) { }
+//    }
+//    val publicationSection = TabContent(Sections.Publications) {
+//        TabWithTopics(
+//            runBlocking { (interestsRepository.getPublications() as Result.Success).data },
+//            emptySet()
+//        ) { }
+//    }
+//
+//    return listOf(topicsSection, peopleSection, publicationSection)
+//}

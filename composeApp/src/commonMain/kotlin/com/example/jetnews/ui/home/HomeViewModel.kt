@@ -19,19 +19,22 @@ package com.example.jetnews.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.jetnews.R
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.jetnews.data.Result
 import com.example.jetnews.data.posts.PostsRepository
 import com.example.jetnews.model.Post
 import com.example.jetnews.model.PostsFeed
 import com.example.jetnews.utils.ErrorMessage
-import java.util.UUID
+import kotlinmulltiplatformlearning.composeapp.generated.resources.Res
+import kotlinmulltiplatformlearning.composeapp.generated.resources.load_error
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
+import kotlin.reflect.KClass
 
 /**
  * UI state for the Home route.
@@ -142,6 +145,7 @@ class HomeViewModel(
 
     init {
         refreshPosts()
+        println("HomeViewModel created")
 
         // Observe for favorite changes in the repo layer
         viewModelScope.launch {
@@ -160,13 +164,14 @@ class HomeViewModel(
 
         viewModelScope.launch {
             val result = postsRepository.getPostsFeed()
+            println("refreshPosts result: $result")
             viewModelState.update {
                 when (result) {
                     is Result.Success -> it.copy(postsFeed = result.data, isLoading = false)
                     is Result.Error -> {
                         val errorMessages = it.errorMessages + ErrorMessage(
-                            id = UUID.randomUUID().mostSignificantBits,
-                            messageId = R.string.load_error
+                            id =  Random.nextLong(), // UUID.randomUUID().mostSignificantBits,
+                            message = Res.string.load_error
                         )
                         it.copy(errorMessages = errorMessages, isLoading = false)
                     }
@@ -241,7 +246,7 @@ class HomeViewModel(
             preSelectedPostId: String? = null
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
                 return HomeViewModel(postsRepository, preSelectedPostId) as T
             }
         }
